@@ -1,4 +1,3 @@
-build
 lxbuild
 winbuild
 wbuild
@@ -10,3 +9,5 @@ wbuild
 etc/nng.sublime-workspace
 cmake-build-*
 docs/**/*.html
+bazel-*
+buildme
