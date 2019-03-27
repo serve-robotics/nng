@@ -33,6 +33,8 @@ cc_library(
             "src/core/list.c",
             # included because test/idhash.c depends on including this?
             "src/core/idhash.c",
+            # included because test/httpclient.c depends on including this?
+            "src/supplemental/sha1/sha1.c"
         ],
         exclude = ["include/nng/transport/zerotier/*.h"],
     ),
