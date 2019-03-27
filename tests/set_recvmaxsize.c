@@ -17,7 +17,7 @@
 const char *addrs[] = {
 	"ipc:///tmp/ipctemp_setrecvmaxsz",
 	"tcp://127.0.0.1:43895",
-	"ws://127.0.0.1:43897",
+//	"ws://127.0.0.1:43897",
 };
 
 TestMain("recvmaxsize", {

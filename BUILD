@@ -1,4 +1,4 @@
-# Currently ignoring tls/none, tls/mbedtls and transport/zerotier directories
+# Currently ignoring tls, tls/mbedtls and transport/zerotier directories
 # since we have no plans to need support for those features
 
 cc_library(
@@ -14,11 +14,16 @@ cc_library(
           "src/supplemental/sha1/*.c",
           "src/supplemental/tcp/*.c",
           "src/supplemental/util/*.c",
-          "src/supplemental/tls/*.c",
+          "src/supplemental/tls/none/*.c", # specifically "none"
           "src/supplemental/websocket/websocket.c",
           "src/transport/**/*.c",
       ],
-      exclude = ["src/transport/zerotier/*.c"]
+      exclude = [
+          "src/transport/zerotier/*.c",
+          "src/platform/posix/posix_pollq_port.c",
+          "src/platform/posix/posix_pollq_epoll.c", # TODO(pickledgator): Support for linux, kqueue for mac
+          "src/platform/posix/posix_pollq_poll.c",
+      ]
     ),
     hdrs = glob([
             "include/nng/nng.h",
@@ -46,6 +51,48 @@ cc_library(
         "NNG_PLATFORM_POSIX",
         "NNG_PLATFORM_DARWIN",
         "NNG_USE_ARC4_RANDOM",
+        "NNG_ENABLE_STATS",
+        "NNG_HAVE_ALLOCA=1",
+        "NNG_HAVE_BACKTRACE=1",
+        "NNG_HAVE_BUS0",
+        "NNG_HAVE_FLOCK=1",
+        "NNG_HAVE_GETPEEREID=1",
+        "NNG_HAVE_KQUEUE=1",
+        "NNG_HAVE_LOCALPEERCRED=1",
+        "NNG_HAVE_LOCKF=1",
+        "NNG_HAVE_MSG_CONTROL=1",
+        "NNG_HAVE_PAIR0",
+        "NNG_HAVE_PAIR1",
+        "NNG_HAVE_PUB0",
+        "NNG_HAVE_PULL0",
+        "NNG_HAVE_PUSH0",
+        "NNG_HAVE_REP0",
+        "NNG_HAVE_REQ0",
+        "NNG_HAVE_RESPONDENT0",
+        "NNG_HAVE_SEMAPHORE_PTHREAD=1",
+        "NNG_HAVE_STDATOMIC=1",
+        "NNG_HAVE_STRCASECMP=1",
+        "NNG_HAVE_STRLCAT=1",
+        "NNG_HAVE_STRLCPY=1",
+        "NNG_HAVE_STRNCASECMP=1",
+        "NNG_HAVE_STRNLEN=1",
+        "NNG_HAVE_SUB0",
+        "NNG_HAVE_SURVEYOR0",
+        "NNG_HAVE_UNIX_SOCKETS=1",
+        "NNG_HIDDEN_VISIBILITY",
+        "NNG_LITTLE_ENDIAN",
+        "NNG_PRIVATE",
+        "NNG_STATIC_LIB",
+        "NNG_SUPP_HTTP",
+        "NNG_TRANSPORT_INPROC",
+        "NNG_TRANSPORT_IPC",
+        "NNG_TRANSPORT_TCP",
+#        "NNG_TRANSPORT_WS",
+        "NNG_USE_CLOCKID=CLOCK_REALTIME",
+        "_GNU_SOURCE",
+        "_POSIX_PTHREAD_SEMANTICS",
+        "_REENTRANT",
+        "_THREAD_SAFE",
     ],
     visibility = ["//visibility:public"],
 )
