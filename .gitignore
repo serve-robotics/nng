@@ -1,4 +1,3 @@
-build
 lxbuild
 winbuild
 wbuild
@@ -7,3 +6,5 @@ wbuild
 .vscode
 .DS_Store
 etc/nng.sublime-workspace
+bazel-*
+buildme
