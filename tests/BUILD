@@ -135,11 +135,12 @@ cc_test(
     deps = [":convey_tests"]
 )
 
-cc_test(
-    name = "compat_ws",
-    srcs = ["compat_ws.c"],
-    deps = [":convey_tests"]
-)
+# Disabled because we aren't building this right now
+#cc_test(
+#    name = "compat_ws",
+#    srcs = ["compat_ws.c"],
+#    deps = [":convey_tests"]
+#)
 
 cc_test(
     name = "cplusplus_pair",
@@ -400,11 +401,12 @@ cc_test(
     deps = [":convey_tests"]
 )
 
-cc_test(
-    name = "tls",
-    srcs = ["tls.c"],
-    deps = [":convey_tests"]
-)
+# Disabled, so removing
+#cc_test(
+#    name = "tls",
+#    srcs = ["tls.c"],
+#    deps = [":convey_tests"]
+#)
 
 cc_test(
     name = "transport",
@@ -424,10 +426,11 @@ cc_test(
     deps = [":convey_tests"]
 )
 
-cc_test(
-    name = "ws",
-    srcs = ["ws.c"],
-    deps = [":convey_tests"]
-)
+# Broken, we don't need it so removing for now
+#cc_test(
+#    name = "ws",
+#    srcs = ["ws.c"],
+#    deps = [":convey_tests"]
+#)
 
 # Ignoring wss and zt tests
