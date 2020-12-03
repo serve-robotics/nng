@@ -37,13 +37,15 @@ cc_library(
         "src/platform/posix/posix_tcplisten.c",
         "src/platform/posix/posix_thread.c",
         "src/platform/posix/posix_udp.c",
+        "src/platform/posix/posix_rand*.c",
         "src/protocol/**/*.c",
         "src/supplemental/base64/*.c",
         "src/supplemental/http/*.c",
         "src/supplemental/sha1/*.c",
         "src/supplemental/tcp/*.c",
         "src/supplemental/util/*.c",
-        "src/supplemental/tls/none/*.c", # specifically "none"
+        "src/supplemental/tls/*.c",
+        "src/supplemental/tls/none/*.c",  # specifically "none"
         "src/supplemental/websocket/websocket.c",
         "src/transport/inproc/*.c",
         "src/transport/ipc/*.c",
@@ -54,7 +56,8 @@ cc_library(
         "@bazel_tools//src/conditions:darwin": ["src/platform/posix/posix_pollq_kqueue.c"],
         "//conditions:default": ["src/platform/posix/posix_pollq_epoll.c"],
     }),
-    hdrs = glob([
+    hdrs = glob(
+        [
             "include/nng/nng.h",
             "include/nng/compat/nanomsg/*.h",
             "include/nng/protocol/**/*.h",
@@ -68,14 +71,11 @@ cc_library(
             # included because test/idhash.c depends on including this?
             "src/core/idhash.c",
             # included because test/httpclient.c depends on including this?
-            "src/supplemental/sha1/sha1.c"
+            "src/supplemental/sha1/sha1.c",
+            "tests/*.h",
         ],
         exclude = ["include/nng/transport/zerotier/*.h"],
     ),
-    includes = [
-      "include",
-      "src",
-    ],
     defines = [
         "NNG_ENABLE_STATS",
         "NNG_HAVE_ALLOCA=1",
@@ -113,29 +113,34 @@ cc_library(
         "_REENTRANT",
         "_THREAD_SAFE",
     ] + select({
-      "@bazel_tools//src/conditions:darwin": [
-          "NNG_HAVE_GETPEEREID=1", # MacOS specific
-          "NNG_HAVE_KQUEUE=1", # MacOS specific
-          "NNG_HAVE_LOCALPEERCRED=1", # MacOS specific
-          "NNG_HAVE_LOCKF=1", # MacOS specific
-          "NNG_HAVE_STRLCAT=1", # MacOS specific
-          "NNG_HAVE_STRLCPY=1", # MacOS specific
-          "NNG_PLATFORM_DARWIN", # MacOS specific
-          "NNG_USE_ARC4_RANDOM", # MacOS specific
-          "NNG_USE_CLOCKID=CLOCK_REALTIME", # MacOS specific
-      ],
-      "//conditions:default": [
-          "NNG_HAVE_CLOCK_GETTIME=1", # Linux specific
-          "NNG_HAVE_EPOLL=1", # Linux specific
-          "NNG_HAVE_EPOLL_CREATE1=1", # Linux specific
-          "NNG_HAVE_EVENTFD=1", # Linux specific
-          "NNG_HAVE_LIBNSL=1", # Linux specific
-          "NNG_HAVE_LOCKF=1", # Linux specific
-          "NNG_HAVE_SOPEERCRED=1", # Linux specific
-          "NNG_PLATFORM_LINUX", # Linux specific
-          "NNG_USE_EVENTFD", # Linux specific
-      ],
+        "@bazel_tools//src/conditions:darwin": [
+            "NNG_HAVE_GETPEEREID=1",  # MacOS specific
+            "NNG_HAVE_KQUEUE=1",  # MacOS specific
+            "NNG_HAVE_LOCALPEERCRED=1",  # MacOS specific
+            "NNG_HAVE_LOCKF=1",  # MacOS specific
+            "NNG_HAVE_STRLCAT=1",  # MacOS specific
+            "NNG_HAVE_STRLCPY=1",  # MacOS specific
+            "NNG_PLATFORM_DARWIN",  # MacOS specific
+            "NNG_USE_ARC4_RANDOM",  # MacOS specific
+            "NNG_USE_CLOCKID=CLOCK_REALTIME",  # MacOS specific
+        ],
+        "//conditions:default": [
+            "NNG_HAVE_CLOCK_GETTIME=1",  # Linux specific
+            "NNG_HAVE_EPOLL=1",  # Linux specific
+            "NNG_HAVE_EPOLL_CREATE1=1",  # Linux specific
+            "NNG_HAVE_EVENTFD=1",  # Linux specific
+            "NNG_HAVE_LIBNSL=1",  # Linux specific
+            "NNG_HAVE_LOCKF=1",  # Linux specific
+            "NNG_HAVE_SOPEERCRED=1",  # Linux specific
+            "NNG_PLATFORM_LINUX",  # Linux specific
+            "NNG_USE_EVENTFD",  # Linux specific
+        ],
     }),
+    includes = [
+        "include",
+        "src",
+        "tests",
+    ],
     linkopts = ["-pthread"],
     visibility = ["//visibility:public"],
 )
