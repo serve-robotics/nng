@@ -18,6 +18,7 @@ cc_library(
     srcs = glob(
         [
             "src/nng.c",
+            "src/nng_legacy.c",
             "src/compat/nanomsg/*.c",
             "src/core/*.c",
             "src/platform/posix/posix_alloc.c",
